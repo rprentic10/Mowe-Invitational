@@ -1,0 +1,103 @@
+================================================================
+MOWE INVITATIONAL 2027 — PROJECT CONTEXT   [created 2026-10-06]
+================================================================
+A duplicate of the Pinehurst 2026 / WNT Invitational golf-trip app
+(same single-file PWA architecture, scoring engine, wagers, chat,
+JSONbin sync) rebranded with the Mowe Invitational design system and
+retargeted to a new trip. The Pinehurst app at www.weneededthis.com is
+untouched and keeps its data.
+
+Live URL:       moweinvitational.com (GitHub Pages, repo: mowe-invitational,
+                CNAME file in repo root). DNS at GoDaddy → GitHub Pages.
+Password:       sunriver   (SHA-256 in _PW_HASH)
+JSONbin bin:    6ac5737eac6210605a1a9965 (created 2026-10-06 —
+                at jsonbin.io, paste {} as content, copy the ID into both
+                index.html and golf-trip.html. Master key is unchanged.
+localStorage:   keys prefixed mowe27-  (mowe27-auth, mowe27-author,
+                mowe27-data-v2, mowe27-onboarded, mowe27-toured, mowe27-tab)
+Data epoch:     REQUIRED_WIPE_AT (set at duplication) — bump to wipe data.
+
+Files:
+  index.html      — working source (edit here first)
+  golf-trip.html  — always an identical copy of index.html
+  CNAME           — moweinvitational.com
+  .gitignore      — allow-list: index.html, golf-trip.html, CNAME,
+                    .gitignore, mowe-project-context.txt
+  Assets/brand/   — design-system logos, Canela fonts, generated header
+                    wordmark, app icon, loading background (not committed)
+
+TRIP
+----
+Sunriver, Oregon · Thu Sept 30 – Sun Oct 3, 2027. One round per day.
+Players/indexes carried over (Rob 7.4, Steve 10.8, Hardy 8.9, Sheila 12.4,
+Matt 12.9, John A 26, Peter 26, John P 13.5) — expected to change.
+
+Rounds (DAYS d1..d4) — courses/tees/tee times are PLACEHOLDERS:
+  d1 Thu PM  Crosswater              Tournament 6550  71.1/135  1:00 / 1:10
+  d2 Fri AM  Sunriver Woodlands      Member     6277  70.9/137  8:00 / 8:10
+  d3 Sat AM  Black Butte Big Meadow  Blue/White 6327  70.1/128  8:00 / 8:10
+  d4 Sun AM  Crosswater              Tournament 6550  71.1/135  8:00 / 8:10
+Scorecards (par / stroke index / yds) from GolfPass. Fri could become
+Meadows; Sat could become Glaze Meadow or a Bend course — swap COURSES[dX],
+the panel course-title, leaderboard section titles, TEE_TIMES and the
+"The Weekend" tour card.
+
+Format unchanged: 2-man net best ball, nine-hole matches, teams change
+every nine (all 8 nines independent — no fixed Sunday teams). 1 pt/hole,
+½ halve, +1 match winner (½ each if halved). Full allowance off the low
+course handicap in each match. Pairings in ROUNDS were solved for balance
++ max socialization: everyone partners everyone at least once, the 4
+unavoidable repeats are Rob/Sheila, Matt/John A, Steve/Peter, Hardy/John P.
+
+Locks: d2/d3/d4 score entry unlocks Thu/Fri/Sat 8pm (DAY_UNLOCK); 4 fast
+taps override. WAGER_CUTOFF = first tee each day. Settlement reminder
+Sun Oct 3, 7pm.
+
+BRAND (Mowe Invitational Design System v2)
+-----------------------------------------
+Palette: Pine #0B3D2E (dominant), Pine-900 #072A20 (page bg), Cream
+#FBF8F0 (text/knockout), Sage #A7B8A4 (positive/muted), Sand #D5C9B4,
+Charcoal #2E3A34, Gold foil #C9B27A (accent — replaces the old yellow),
+terracotta #C9705F for negatives. Square corners (radius >4px → 0).
+Type: Cinzel (caps mastheads, replaces Masters/Forum), Canela embedded
+as base64 (body serif, replaces Old Standard TT; trial OTFs from the
+design-system bundle — license before commercial use), Hanken Grotesk
+(supporting sans, replaces DM Sans). Google Fonts: Cinzel, Hanken
+Grotesk, Newsreader (Canela fallback).
+Marks: header = wordmark-horizontal-cream; app icon/favicon = monogram
+seal on Pine; loading screen = Pine with tonal monogram lattice, monogram
+seal + wordmark (year-free marks only — the seal/stacked wordmark say
+"20—25"). Source assets in Assets/brand/logos.
+LIGHT MODE (2026-10-06): page is Cream #FBF8F0, cards #FDFBF6 with
+pine hairlines, text Pine, accent gold-deep #A68F58, positive #2E6B57,
+negative #A8503F. Header is cream with the primary seal (pine) and a hairline; password
+gate and primary buttons stay Pine with cream knockouts. Cream-alpha → pine-alpha was the global inversion
+rule; the loader, header, pw gate and scorecard table are exempt.
+Bottom nav = 4 tabs (Scores, Board, Wagers, Me) with Lucide-style SVG
+icons; Me is a normal tab (no raised avatar). Chat and notifications
+are removed: #panel-chat is display:none!important, show('chat')
+routes to scores, NOTIFS_ENABLED=false stubs Notification/queueAlert,
+onboarding is 2 steps (name, home screen). The chat data model is still
+synced (harmless) so the engine code is unchanged.
+Match chips (matchCardHTML/matchGridHTML): parchment #F3EEE2 cards,
+front-nine on row 1, back-nine on row 2 with a gold hairline between.
+Centre badge is a filled block whose clip-path arrow tip points at the
+leading team ("2 UP / THRU 5", "1 UP / FINAL"); AS/½ is a charcoal
+rectangle; not started = hairline box with "—". Board chips are titled
+Front 9 / Back 9 only; day-page chips keep "1:00 · Front 9".
+TEAM COLOURS: --teamA Pine #0B3D2E (badge fill pine, cream text) vs
+--teamB Gold foil (names #A68F58 gold-deep for legibility, badge fill
+#C9B27A with pine text). Used for chip names/badges, hole pills, match
+board, .bA/.bB badges. Scorecard rows alternate parchment/cream (rows
+are not team-based since teams change every nine).
+Loading screen = Crosswater photo (portrait crop) with the cream seal
+overlaid; password gate = primary seal (note: supplied seal reads
+20—25; needs a 2027 master from the designer).
+Known gaps vs. brand voice: emoji remain on wager type cards / propose
+sheet (🤝 ⛳ 🏠 🎱), avatars, and the avatar edit badge.
+
+TESTING
+-------
+Headless: node test-mowe.js (harness.js with argv[2]=mowe.html) in the
+Cowork scratch folder. ?sim=1 loads fake scores (writes to bin — bump
+epoch afterwards). Masters Pool code retained, MASTERS_ENABLED=false.
